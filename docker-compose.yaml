@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  chromium:
+    image: samge/chromium-jsrpc:latest
+    container_name: chromium
+    hostname: chromium
+    shm_size: 4g
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Shanghai
+      CHROME_CLI: "https://www.bing.com/"
+      LANGUAGE: zh_CN:zh
+      LANG: zh_CN.UTF-8
+      LC_ALL: C.UTF-8
+      TITLE: Pidin
+      # http_proxy: "http://192.168.3.169:7890"
+      # https_proxy: "http://192.168.3.169:7890"
+      # no_proxy: "localhost,127.0.0.1,::1,192.168.*"
+    ports:
+      - "53010:3000"
+      - "53011:3001"
+      - "52080:12080"
+      - "52443:12443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker_data/chromium/config:/config
+    devices:
+      - /dev/dri:/dev/dri
